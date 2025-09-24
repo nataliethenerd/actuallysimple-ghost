@@ -1,0 +1,200 @@
+{
+    "name": "ghost-starter-theme",
+    "description": "A starter theme for Ghost theme development",
+    "demo": "https://starter.ghost.io",
+    "version": "1.0.0",
+    "engines": {
+        "ghost": ">=5.0.0"
+    },
+    "license": "MIT",
+    "screenshots": {
+        "desktop": "assets/screenshot-desktop.jpg"
+    },
+    "scripts": {
+        "dev": "rollup -c --environment BUILD:development -w",
+        "build": "rollup -c --environment BUILD:production",
+        "zip": "npm run build && bestzip $npm_package_name.zip assets/* partials/* members/* *.hbs package.json",
+        "test": "npx gscan .",
+        "pretest": "npm run build"
+    },
+    "author": {
+        "name": "Ghost Foundation",
+        "email": "hello@ghost.org",
+        "url": "https://ghost.org"
+    },
+    "gpm": {
+        "type": "theme",
+        "categories": [
+            "Minimal",
+            "Magazine"
+        ]
+    },
+    "keywords": [
+        "ghost",
+        "theme",
+        "ghost-theme"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TryGhost/Starter.git"
+    },
+    "bugs": "https://github.com/TryGhost/Starter/issues",
+    "contributors": "https://github.com/TryGhost/Starter/graphs/contributors",
+    "devDependencies": {
+        "@babel/core": "^7.21.0",
+        "@babel/preset-env": "^7.20.2",
+        "@rollup/plugin-babel": "^6.0.3",
+        "@rollup/plugin-commonjs": "^25.0.0",
+        "@rollup/plugin-node-resolve": "^15.0.1",
+        "@rollup/plugin-terser": "^0.4.0",
+        "bestzip": "^2.2.1",
+        "postcss": "^8.4.24",
+        "postcss-import": "^15.1.0",
+        "postcss-preset-env": "^8.0.1",
+        "rollup": "^3.29.5",
+        "rollup-plugin-livereload": "^2.0.5",
+        "rollup-plugin-postcss": "^4.0.2"
+    },
+    "browserslist": [
+        "defaults"
+    ],
+    "config": {
+        "card_assets": true,
+        "posts_per_page": 15,
+        "image_sizes": {
+            "xxs": {
+                "width": 30
+            },
+            "xs": {
+                "width": 100
+            },
+            "s": {
+                "width": 300
+            },
+            "m": {
+                "width": 600
+            },
+            "l": {
+                "width": 1200
+            },
+            "xl": {
+                "width": 2000
+            }
+        },
+        "custom": {
+            "typography": {
+                "type": "select",
+                "options": [
+                    "Monospace",
+                    "Sans-serif",
+                    "Serif"
+                ],
+                "default": "Monospace",
+                "description": "Choose the font style for the theme"
+            },
+            "font_size": {
+                "type": "select",
+                "options": [
+                    "Small",
+                    "Medium",
+                    "Large"
+                ],
+                "default": "Medium",
+                "description": "Choose the base font size"
+            },
+            "main_title_font": {
+                "type": "select",
+                "options": [
+                    "Monospace",
+                    "Sans-serif",
+                    "Serif"
+                ],
+                "default": "Monospace",
+                "description": "Choose the main site title font style"
+            },
+            "main_title_size": {
+                "type": "select",
+                "options": [
+                    "Small",
+                    "Medium",
+                    "Large",
+                    "Extra Large"
+                ],
+                "default": "Large",
+                "description": "Choose the main site title size"
+            },
+            "sidebar_position": {
+                "type": "select",
+                "options": [
+                    "Right",
+                    "Left"
+                ],
+                "default": "Right",
+                "description": "Choose sidebar position"
+            },
+            "enable_dark_mode": {
+                "type": "boolean",
+                "default": true,
+                "description": "Enable dark mode toggle"
+            },
+            "show_about_me": {
+                "type": "boolean",
+                "default": true,
+                "description": "Show About Me section in sidebar"
+            },
+            "about_me_text": {
+                "type": "text",
+                "default": "",
+                "description": "Custom About Me text (leave empty to use site description)"
+            },
+            "about_me_image": {
+                "type": "image",
+                "description": "About Me profile image (leave empty to use site cover image)"
+            },
+            "about_me_image_style": {
+                "type": "select",
+                "options": [
+                    "Circle",
+                    "Default"
+                ],
+                "default": "Circle",
+                "description": "About Me image display style"
+            },
+            "custom_block_enabled": {
+                "type": "boolean",
+                "default": false,
+                "description": "Enable custom sidebar block"
+            },
+            "custom_block_title": {
+                "type": "text",
+                "default": "",
+                "description": "Title for custom block"
+            },
+            "custom_block_content": {
+                "type": "text",
+                "default": "",
+                "description": "HTML content for custom block"
+            },
+            "custom_block_image": {
+                "type": "image",
+                "description": "Optional image for custom block"
+            },
+            "social_twitter": {
+                "type": "text",
+                "default": "",
+                "description": "Twitter/X username or full URL"
+            },
+            "social_github": {
+                "type": "text",
+                "default": "",
+                "description": "GitHub username or full URL"
+            },
+            "social_email": {
+                "type": "text",
+                "default": "",
+                "description": "Contact email address"
+            }
+        }
+    },
+    "type": "module"
+}

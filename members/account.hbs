@@ -1,0 +1,67 @@
+{{!< ../default}}
+
+{{#if @member.paid}}
+{{!-- Logged in, paying member: Show account info --}}
+<div class="subscribe-page">
+    <header class="post-header">
+        <h1 class="post-title">Account Details</h1>
+        <div class="post-meta">
+            Welcome back, {{#if @member.name}}{{@member.name}}{{else}}{{@member.email}}{{/if}}
+        </div>
+    </header>
+
+    <div class="account-details">
+        <div class="account-section">
+            <h3>Your Subscription</h3>
+            <p><strong>Email:</strong> {{@member.email}}</p>
+            {{#if @member.name}}<p><strong>Name:</strong> {{@member.name}}</p>{{/if}}
+            <p><strong>Status:</strong> Active Subscriber</p>
+
+            {{#if @member.subscriptions}}
+            {{#foreach @member.subscriptions}}
+            <div class="subscription-info">
+                <p><strong>Plan:</strong> {{tier.name}}</p>
+                <p><strong>Price:</strong> {{price}}</p>
+                <p><strong>Billing:</strong> {{cadence}}</p>
+                {{#if cancel_at_period_end}}
+                <p><strong>Status:</strong> Canceling at period end</p>
+                {{/if}}
+            </div>
+            {{/foreach}}
+            {{/if}}
+        </div>
+
+        <div class="account-actions">
+            <a href="javascript:void(0)" onclick="if(window.ghost && window.ghost.portal) { window.ghost.portal.open({page: 'account'}); } else { window.location.href = '{{@site.url}}/#/portal/account'; }" class="subscribe-button">Manage Subscription</a>
+        </div>
+    </div>
+</div>
+
+{{else if @member}}
+{{!-- Logged in, not paying: Link to checkout --}}
+<div class="subscribe-page">
+    <header class="post-header">
+        <h1 class="post-title">Upgrade Your Account</h1>
+        <div class="post-meta">
+            {{@member.email}} - Free Member
+        </div>
+    </header>
+
+    <div class="account-upgrade">
+        <p>You're subscribed to free updates from {{@site.title}}. Upgrade to a paid subscription to unlock full access to all content.</p>
+
+        <div class="account-actions">
+            <a href="javascript:void(0)" onclick="if(window.ghost && window.ghost.portal) { window.ghost.portal.open({page: 'signup'}); } else { window.location.href = '{{@site.url}}/#/portal/signup'; }" class="subscribe-button">
+                Subscribe Now
+            </a>
+            <a href="javascript:void(0)" onclick="if(window.ghost && window.ghost.portal) { window.ghost.portal.open({page: 'account'}); } else { window.location.href = '{{@site.url}}/#/portal/account'; }" class="subscribe-button secondary">
+                Manage Account
+            </a>
+        </div>
+    </div>
+</div>
+
+{{else}}
+{{!-- Not logged in: Redirect to signin --}}
+<script>window.location = '{{@site.url}}/signin/';</script>
+{{/if}}

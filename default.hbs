@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{asset "built/index.css"}}" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="{{asset "built/index.js"}}" defer></script>
+
+    <title>{{meta_title}}</title>
+
+    <style>
+        {{#match @custom.typography "Sans-serif"}}
+        :root {
+            --content-font-family: var(--font-sans);
+            --heading-font-family: var(--font-sans);
+        }
+        {{/match}}
+        {{#match @custom.typography "Serif"}}
+        :root {
+            --content-font-family: var(--font-serif);
+            --heading-font-family: var(--font-serif);
+        }
+        {{/match}}
+        {{#match @custom.typography "Monospace"}}
+        :root {
+            --content-font-family: var(--font-mono);
+            --heading-font-family: var(--font-mono);
+        }
+        {{/match}}
+
+        {{#match @custom.font_size "Small"}}
+        :root {
+            --content-font-size: var(--font-size-small);
+        }
+        body { font-size: var(--font-size-small); }
+        .post-content { font-size: var(--post-content-size-small); }
+        .post-content h1 { font-size: 18px; }
+        .post-content h2 { font-size: 16px; }
+        .post-content h3 { font-size: 14px; }
+        .post-content h4, .post-content h5, .post-content h6 { font-size: 13px; }
+        .post-content code { font-size: 11px; }
+        .post-content figcaption { font-size: 10px; }
+        .post-item-thumbnail { height: 95px; }
+        {{/match}}
+
+        {{#match @custom.font_size "Medium"}}
+        :root {
+            --content-font-size: var(--font-size-medium);
+        }
+        body { font-size: var(--font-size-medium); }
+        .post-content { font-size: var(--post-content-size-medium); }
+        .post-content h1 { font-size: 20px; }
+        .post-content h2 { font-size: 18px; }
+        .post-content h3 { font-size: 16px; }
+        .post-content h4, .post-content h5, .post-content h6 { font-size: 14px; }
+        .post-content code { font-size: 12px; }
+        .post-content figcaption { font-size: 11px; }
+        .post-item-thumbnail { height: 110px; }
+        {{/match}}
+
+        {{#match @custom.font_size "Large"}}
+        :root {
+            --content-font-size: var(--font-size-large);
+        }
+        body { font-size: var(--font-size-large); }
+        .post-content { font-size: var(--post-content-size-large); }
+        .post-content h1 { font-size: 22px; }
+        .post-content h2 { font-size: 20px; }
+        .post-content h3 { font-size: 18px; }
+        .post-content h4, .post-content h5, .post-content h6 { font-size: 16px; }
+        .post-content code { font-size: 14px; }
+        .post-content figcaption { font-size: 12px; }
+        .post-item-thumbnail { height: 125px; }
+        {{/match}}
+
+        {{#match @custom.main_title_font "Sans-serif"}}
+        .site-title {
+            font-family: var(--font-sans);
+        }
+        {{/match}}
+        {{#match @custom.main_title_font "Serif"}}
+        .site-title {
+            font-family: var(--font-serif);
+        }
+        {{/match}}
+        {{#match @custom.main_title_font "Monospace"}}
+        .site-title {
+            font-family: var(--font-mono);
+        }
+        {{/match}}
+
+        {{#match @custom.main_title_size "Small"}}
+        .site-title {
+            font-size: 24px;
+        }
+        {{/match}}
+        {{#match @custom.main_title_size "Medium"}}
+        .site-title {
+            font-size: 32px;
+        }
+        {{/match}}
+        {{#match @custom.main_title_size "Large"}}
+        .site-title {
+            font-size: 40px;
+        }
+        {{/match}}
+        {{#match @custom.main_title_size "Extra Large"}}
+        .site-title {
+            font-size: 48px;
+        }
+        {{/match}}
+    </style>
+
+    {{ghost_head}}
+</head>
+<body class="{{body_class}} {{#match @custom.sidebar_position "Left"}}sidebar-left{{else}}sidebar-right{{/match}} {{#match @custom.typography "Sans-serif"}}font-sans-serif{{/match}}{{#match @custom.typography "Serif"}}font-serif{{/match}}{{#match @custom.typography "Monospace"}}font-monospace{{/match}}">
+    <div class="container">
+        <div class="card header-card">
+            <header class="site-header">
+                <h1 class="site-title">
+                    <a href="{{@site.url}}">{{@site.title}}</a>
+                </h1>
+                {{#if @site.description}}
+                <p class="site-description">{{@site.description}}</p>
+                {{/if}}
+
+                <nav class="site-nav">
+                    <a href="{{@site.url}}">Home</a>
+                    {{#foreach navigation}}
+                    <a href="{{url}}">{{label}}</a>
+                    {{/foreach}}
+                    <a href="{{@site.url}}/rss/">RSS</a>{{#if @custom.enable_dark_mode}}<label class="theme-toggle" title="Toggle dark mode">
+                        <input type="checkbox" id="theme-checkbox" onchange="toggleDarkMode()">
+                        <span class="toggle-slider"></span>
+                    </label>{{/if}}
+                </nav>
+            </header>
+        </div>
+
+        <div class="site-content">
+            <div class="card main-card">
+                <main class="site-main">
+                    {{{body}}}
+                </main>
+            </div>
+
+            <div class="card sidebar-card">
+                <aside class="sidebar">
+                {{#if @custom.show_about_me}}
+                <div class="sidebar-widget sidebar-about">
+                    <h3 class="sidebar-title">About</h3>
+                    <div class="sidebar-about-content">
+                        {{#if @custom.about_me_image}}
+                        <div class="sidebar-about-image {{#match @custom.about_me_image_style "Circle"}}image-circle{{else}}image-default{{/match}}">
+                            <img src="{{@custom.about_me_image}}" alt="{{@site.title}}" />
+                        </div>
+                        {{else if @site.cover_image}}
+                        <div class="sidebar-about-image {{#match @custom.about_me_image_style "Circle"}}image-circle{{else}}image-default{{/match}}">
+                            <img src="{{@site.cover_image}}" alt="{{@site.title}}" />
+                        </div>
+                        {{/if}}
+
+                        {{#if @custom.about_me_text}}
+                        <p>{{@custom.about_me_text}}</p>
+                        {{else if @site.description}}
+                        <p>{{@site.description}}</p>
+                        {{else}}
+                        <p>Welcome to my blog where I share thoughts, ideas, and insights on various topics. Thanks for stopping by!</p>
+                        {{/if}}
+
+                        <div class="social-links">
+                            {{#if @custom.social_twitter}}
+                            <a href="{{#if (match @custom.social_twitter "^http")}}{{@custom.social_twitter}}{{else}}https://twitter.com/{{@custom.social_twitter}}{{/if}}" target="_blank" rel="noopener" title="Twitter/X">
+                                <i class="ri-twitter-x-line"></i>
+                            </a>
+                            {{/if}}
+                            {{#if @custom.social_github}}
+                            <a href="{{#if (match @custom.social_github "^http")}}{{@custom.social_github}}{{else}}https://github.com/{{@custom.social_github}}{{/if}}" target="_blank" rel="noopener" title="GitHub">
+                                <i class="ri-github-line"></i>
+                            </a>
+                            {{/if}}
+                            {{#if @custom.social_email}}
+                            <a href="mailto:{{@custom.social_email}}" title="Email">
+                                <i class="ri-mail-line"></i>
+                            </a>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+
+
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Recent Posts</h3>
+                    <div class="sidebar-recent-posts">
+                        {{#get "posts" limit="5" include="tags"}}
+                        {{#foreach posts}}
+                        <article class="sidebar-post">
+                            <h4 class="sidebar-post-title">
+                                <a href="{{url}}">{{title}}</a>
+                            </h4>
+                            <div class="sidebar-post-meta">
+                                {{date format="MMM DD, YYYY"}}
+                            </div>
+                        </article>
+                        {{/foreach}}
+                        {{/get}}
+                    </div>
+                </div>
+
+                {{#if @site.members_enabled}}
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Stay in the loop</h3>
+                    <div class="sidebar-newsletter">
+                        <p>Subscribe to get the latest posts sent to your email.</p>
+                        <form class="sidebar-newsletter-form" data-members-form>
+                            <input type="email" data-members-email placeholder="your@email.com" required />
+                            <button type="submit">Subscribe</button>
+                        </form>
+                        <div class="message-success">Thanks! Check your email.</div>
+                        <div class="message-error">Please enter a valid email.</div>
+                    </div>
+                </div>
+                {{/if}}
+
+
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-title">Tags</h3>
+                    <div class="sidebar-tags">
+                        {{#get "tags" limit="20" order="count.posts desc"}}
+                        {{#foreach tags}}
+                        <a href="{{url}}" class="sidebar-tag">{{name}}</a>
+                        {{/foreach}}
+                        {{/get}}
+                    </div>
+                </div>
+
+                {{#if @custom.custom_block_enabled}}
+                <div class="sidebar-widget custom-block">
+                    {{#if @custom.custom_block_title}}
+                    <h3 class="sidebar-title">{{@custom.custom_block_title}}</h3>
+                    {{/if}}
+                    <div class="custom-block-content">
+                        {{#if @custom.custom_block_image}}
+                        <div class="custom-block-image">
+                            <img src="{{@custom.custom_block_image}}" alt="{{@custom.custom_block_title}}" />
+                        </div>
+                        {{/if}}
+                        {{#if @custom.custom_block_content}}
+                        <div class="custom-block-text">
+                            {{{@custom.custom_block_content}}}
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+                {{/if}}
+
+
+                </aside>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <p>&copy; {{date format="YYYY"}} {{@site.title}}. Powered by <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Dark mode functionality
+        function toggleDarkMode() {
+            const checkbox = document.getElementById('theme-checkbox');
+            const newTheme = checkbox.checked ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Initialize theme on page load
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            const checkbox = document.getElementById('theme-checkbox');
+            if (checkbox) {
+                checkbox.checked = savedTheme === 'dark';
+            }
+        })();
+
+        // Open newsletter portal
+        function openNewsletterPortal() {
+            // Try portal API first
+            if (window.ghost && window.ghost.portal) {
+                window.ghost.portal.open({
+                    page: 'signup'
+                });
+                return;
+            }
+
+            // Fallback to hash navigation
+            window.location.hash = '#/portal/signup';
+        }
+
+        // Subscribe button feedback - inline version
+        function addSubscribeButtonFeedback() {
+            // Handle clicks on subscribe buttons
+            document.addEventListener('click', function(e) {
+                const button = e.target;
+
+                // Check if it's a subscribe/newsletter button
+                if (button.classList.contains('subscribe-button') ||
+                    button.classList.contains('newsletter-button') ||
+                    (button.type === 'submit' && button.closest('.sidebar-newsletter-form'))) {
+
+                    console.log('Button clicked:', button);
+
+                    // Prevent if already processing
+                    if (button.classList.contains('loading') || button.classList.contains('success')) {
+                        return;
+                    }
+
+                    // Add loading state
+                    button.classList.add('loading');
+                    button.disabled = true;
+
+                    // After 1.5 seconds, show success
+                    setTimeout(function() {
+                        button.classList.remove('loading');
+                        button.classList.add('success');
+                        button.disabled = false;
+
+                        // Reset after 3 seconds
+                        setTimeout(function() {
+                            button.classList.remove('success');
+                        }, 3000);
+                    }, 1500);
+                }
+            });
+        }
+
+        // Initialize subscribe button feedback
+        addSubscribeButtonFeedback();
+    </script>
+
+    {{ghost_foot}}
+</body>
+</html>
