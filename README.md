@@ -1,3 +1,7 @@
-# Old School Blog
+# Actually Simple Ghost theme
 
-WIP: old school style blog theme that is actually quite minimal
+WIP. Actually simple and minimal style blog
+
+
+
+used for my blog, https://blog.nataliethenerd.com/
