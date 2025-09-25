@@ -3,6 +3,39 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{!-- Site icon --}}
+    {{#if @site.icon}}
+    <link rel="icon" type="image/png" href="{{@site.icon}}" />
+    {{/if}}
+
+    {{!-- Open Graph meta tags --}}
+    <meta property="og:site_name" content="{{@site.title}}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{#if @site.og_title}}{{@site.og_title}}{{else}}{{@site.title}}{{/if}}" />
+    <meta property="og:description" content="{{#if @site.og_description}}{{@site.og_description}}{{else}}{{@site.description}}{{/if}}" />
+    <meta property="og:url" content="{{@site.url}}" />
+    {{#if @site.og_image}}
+    <meta property="og:image" content="{{@site.og_image}}" />
+    {{else if @site.cover_image}}
+    <meta property="og:image" content="{{@site.cover_image}}" />
+    {{/if}}
+
+    {{!-- Twitter meta tags --}}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{#if @site.og_title}}{{@site.og_title}}{{else}}{{@site.title}}{{/if}}" />
+    <meta name="twitter:description" content="{{#if @site.og_description}}{{@site.og_description}}{{else}}{{@site.description}}{{/if}}" />
+    {{#if @site.twitter_image}}
+    <meta name="twitter:image" content="{{@site.twitter_image}}" />
+    {{else if @site.og_image}}
+    <meta name="twitter:image" content="{{@site.og_image}}" />
+    {{else if @site.cover_image}}
+    <meta name="twitter:image" content="{{@site.cover_image}}" />
+    {{/if}}
+    {{#if @site.twitter}}
+    <meta name="twitter:site" content="{{@site.twitter}}" />
+    {{/if}}
+
     <link rel="stylesheet" href="{{asset "built/index.css"}}" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
     <script src="{{asset "built/index.js"}}" defer></script>
@@ -10,42 +43,17 @@
     <title>{{meta_title}}</title>
 
     <style>
-        {{#match @custom.typography "Sans-serif"}}
+        {{!-- Ghost accent color support --}}
+        {{#if @site.accent_color}}
         :root {
-            --content-font-family: var(--font-sans);
-            --heading-font-family: var(--font-sans);
+            --ghost-accent-color: {{@site.accent_color}};
         }
-        {{/match}}
-        {{#match @custom.typography "Serif"}}
-        :root {
-            --content-font-family: var(--font-serif);
-            --heading-font-family: var(--font-serif);
-        }
-        {{/match}}
-        {{#match @custom.typography "Monospace"}}
+        {{/if}}
+
+        /* Default to Monospace styling */
         :root {
             --content-font-family: var(--font-mono);
             --heading-font-family: var(--font-mono);
-        }
-        {{/match}}
-
-        {{#match @custom.font_size "Small"}}
-        :root {
-            --content-font-size: var(--font-size-small);
-        }
-        body { font-size: var(--font-size-small); }
-        .post-content { font-size: var(--post-content-size-small); }
-        .post-content h1 { font-size: 18px; }
-        .post-content h2 { font-size: 16px; }
-        .post-content h3 { font-size: 14px; }
-        .post-content h4, .post-content h5, .post-content h6 { font-size: 13px; }
-        .post-content code { font-size: 11px; }
-        .post-content figcaption { font-size: 10px; }
-        .post-item-thumbnail { height: 95px; }
-        {{/match}}
-
-        {{#match @custom.font_size "Medium"}}
-        :root {
             --content-font-size: var(--font-size-medium);
         }
         body { font-size: var(--font-size-medium); }
@@ -57,99 +65,46 @@
         .post-content code { font-size: 12px; }
         .post-content figcaption { font-size: 11px; }
         .post-item-thumbnail { height: 110px; }
-        {{/match}}
 
-        {{#match @custom.font_size "Large"}}
-        :root {
-            --content-font-size: var(--font-size-large);
-        }
-        body { font-size: var(--font-size-large); }
-        .post-content { font-size: var(--post-content-size-large); }
-        .post-content h1 { font-size: 22px; }
-        .post-content h2 { font-size: 20px; }
-        .post-content h3 { font-size: 18px; }
-        .post-content h4, .post-content h5, .post-content h6 { font-size: 16px; }
-        .post-content code { font-size: 14px; }
-        .post-content figcaption { font-size: 12px; }
-        .post-item-thumbnail { height: 125px; }
-        {{/match}}
-
-        {{#match @custom.main_title_font "Sans-serif"}}
-        .site-title {
-            font-family: var(--font-sans);
-        }
-        {{/match}}
-        {{#match @custom.main_title_font "Serif"}}
-        .site-title {
-            font-family: var(--font-serif);
-        }
-        {{/match}}
-        {{#match @custom.main_title_font "Monospace"}}
         .site-title {
             font-family: var(--font-mono);
-        }
-        {{/match}}
-
-        {{#match @custom.main_title_size "Small"}}
-        .site-title {
-            font-size: 24px;
-        }
-        {{/match}}
-        {{#match @custom.main_title_size "Medium"}}
-        .site-title {
-            font-size: 32px;
-        }
-        {{/match}}
-        {{#match @custom.main_title_size "Large"}}
-        .site-title {
             font-size: 40px;
         }
-        {{/match}}
-        {{#match @custom.main_title_size "Extra Large"}}
-        .site-title {
-            font-size: 48px;
-        }
-        {{/match}}
+
+
     </style>
+
+    {{!-- Site-wide code injection (head) --}}
+    {{{@site.codeinjection_head}}}
 
     {{ghost_head}}
 </head>
-<body class="{{body_class}} {{#match @custom.sidebar_position "Left"}}sidebar-left{{else}}sidebar-right{{/match}} {{#match @custom.typography "Sans-serif"}}font-sans-serif{{/match}}{{#match @custom.typography "Serif"}}font-serif{{/match}}{{#match @custom.typography "Monospace"}}font-monospace{{/match}}">
+<body class="{{body_class}} sidebar-right font-monospace">
     <div class="container">
-        <div class="card header-card">
-            <header class="site-header">
-                <h1 class="site-title">
-                    <a href="{{@site.url}}">{{@site.title}}</a>
-                </h1>
-                {{#if @site.description}}
-                <p class="site-description">{{@site.description}}</p>
-                {{/if}}
+        <header class="site-header">
+            <h1 class="site-title">
+                <a href="{{@site.url}}">{{@site.title}}</a>
+            </h1>
 
-                <nav class="site-nav">
-                    <a href="{{@site.url}}">Home</a>
-                    {{#foreach navigation}}
-                    <a href="{{url}}">{{label}}</a>
-                    {{/foreach}}
-                    <a href="{{@site.url}}/rss/">RSS</a>{{#if @custom.enable_dark_mode}}<label class="theme-toggle" title="Toggle dark mode">
-                        <input type="checkbox" id="theme-checkbox" onchange="toggleDarkMode()">
-                        <span class="toggle-slider"></span>
-                    </label>{{/if}}
-                </nav>
-            </header>
-        </div>
+            <nav class="site-nav">
+                {{navigation}}
+                <a href="{{@site.url}}/rss/">RSS</a>
+                <button class="theme-toggle" id="theme-toggle" onclick="toggleDarkMode()" title="Toggle dark mode">
+                    <i class="ri-sun-line theme-icon"></i>
+                </button>
+            </nav>
+        </header>
 
         <div class="site-content">
-            <div class="card main-card">
-                <main class="site-main">
-                    {{{body}}}
-                </main>
-            </div>
+            <main class="site-main">
+                {{{body}}}
+            </main>
 
-            <div class="card sidebar-card">
-                <aside class="sidebar">
+            <aside class="sidebar">
                 {{#if @custom.show_about_me}}
                 <div class="sidebar-widget sidebar-about">
                     <h3 class="sidebar-title">About</h3>
+                    <div class="sidebar-divider">..........................................................................................................</div>
                     <div class="sidebar-about-content">
                         {{#if @custom.about_me_image}}
                         <div class="sidebar-about-image {{#match @custom.about_me_image_style "Circle"}}image-circle{{else}}image-default{{/match}}">
@@ -169,23 +124,6 @@
                         <p>Welcome to my blog where I share thoughts, ideas, and insights on various topics. Thanks for stopping by!</p>
                         {{/if}}
 
-                        <div class="social-links">
-                            {{#if @custom.social_twitter}}
-                            <a href="{{#if (match @custom.social_twitter "^http")}}{{@custom.social_twitter}}{{else}}https://twitter.com/{{@custom.social_twitter}}{{/if}}" target="_blank" rel="noopener" title="Twitter/X">
-                                <i class="ri-twitter-x-line"></i>
-                            </a>
-                            {{/if}}
-                            {{#if @custom.social_github}}
-                            <a href="{{#if (match @custom.social_github "^http")}}{{@custom.social_github}}{{else}}https://github.com/{{@custom.social_github}}{{/if}}" target="_blank" rel="noopener" title="GitHub">
-                                <i class="ri-github-line"></i>
-                            </a>
-                            {{/if}}
-                            {{#if @custom.social_email}}
-                            <a href="mailto:{{@custom.social_email}}" title="Email">
-                                <i class="ri-mail-line"></i>
-                            </a>
-                            {{/if}}
-                        </div>
                     </div>
                 </div>
                 {{/if}}
@@ -194,6 +132,7 @@
 
                 <div class="sidebar-widget">
                     <h3 class="sidebar-title">Recent Posts</h3>
+                    <div class="sidebar-divider">..........................................................................................................</div>
                     <div class="sidebar-recent-posts">
                         {{#get "posts" limit="5" include="tags"}}
                         {{#foreach posts}}
@@ -204,6 +143,7 @@
                             <div class="sidebar-post-meta">
                                 {{date format="MMM DD, YYYY"}}
                             </div>
+                            {{#unless @last}}<div class="sidebar-divider">..........................................................................................................</div>{{/unless}}
                         </article>
                         {{/foreach}}
                         {{/get}}
@@ -213,6 +153,7 @@
                 {{#if @site.members_enabled}}
                 <div class="sidebar-widget">
                     <h3 class="sidebar-title">Stay in the loop</h3>
+                    <div class="sidebar-divider">..........................................................................................................</div>
                     <div class="sidebar-newsletter">
                         <p>Subscribe to get the latest posts sent to your email.</p>
                         <form class="sidebar-newsletter-form" data-members-form>
@@ -228,6 +169,7 @@
 
                 <div class="sidebar-widget">
                     <h3 class="sidebar-title">Tags</h3>
+                    <div class="sidebar-divider">..........................................................................................................</div>
                     <div class="sidebar-tags">
                         {{#get "tags" limit="20" order="count.posts desc"}}
                         {{#foreach tags}}
@@ -237,29 +179,9 @@
                     </div>
                 </div>
 
-                {{#if @custom.custom_block_enabled}}
-                <div class="sidebar-widget custom-block">
-                    {{#if @custom.custom_block_title}}
-                    <h3 class="sidebar-title">{{@custom.custom_block_title}}</h3>
-                    {{/if}}
-                    <div class="custom-block-content">
-                        {{#if @custom.custom_block_image}}
-                        <div class="custom-block-image">
-                            <img src="{{@custom.custom_block_image}}" alt="{{@custom.custom_block_title}}" />
-                        </div>
-                        {{/if}}
-                        {{#if @custom.custom_block_content}}
-                        <div class="custom-block-text">
-                            {{{@custom.custom_block_content}}}
-                        </div>
-                        {{/if}}
-                    </div>
-                </div>
-                {{/if}}
 
 
-                </aside>
-            </div>
+            </aside>
         </div>
 
         <footer class="site-footer">
@@ -270,11 +192,18 @@
     <script>
         // Dark mode functionality
         function toggleDarkMode() {
-            const checkbox = document.getElementById('theme-checkbox');
-            const newTheme = checkbox.checked ? 'dark' : 'light';
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+
+            // Update button icon
+            const toggleButton = document.getElementById('theme-toggle');
+            const themeIcon = toggleButton ? toggleButton.querySelector('.theme-icon') : null;
+            if (themeIcon) {
+                themeIcon.className = newTheme === 'dark' ? 'ri-moon-line theme-icon' : 'ri-sun-line theme-icon';
+            }
         }
 
         // Initialize theme on page load
@@ -282,9 +211,10 @@
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
 
-            const checkbox = document.getElementById('theme-checkbox');
-            if (checkbox) {
-                checkbox.checked = savedTheme === 'dark';
+            const toggleButton = document.getElementById('theme-toggle');
+            const themeIcon = toggleButton ? toggleButton.querySelector('.theme-icon') : null;
+            if (themeIcon) {
+                themeIcon.className = savedTheme === 'dark' ? 'ri-moon-line theme-icon' : 'ri-sun-line theme-icon';
             }
         })();
 
@@ -342,6 +272,9 @@
         // Initialize subscribe button feedback
         addSubscribeButtonFeedback();
     </script>
+
+    {{!-- Site-wide code injection (foot) --}}
+    {{{@site.codeinjection_foot}}}
 
     {{ghost_foot}}
 </body>

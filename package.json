@@ -82,61 +82,6 @@
             }
         },
         "custom": {
-            "typography": {
-                "type": "select",
-                "options": [
-                    "Monospace",
-                    "Sans-serif",
-                    "Serif"
-                ],
-                "default": "Monospace",
-                "description": "Choose the font style for the theme"
-            },
-            "font_size": {
-                "type": "select",
-                "options": [
-                    "Small",
-                    "Medium",
-                    "Large"
-                ],
-                "default": "Medium",
-                "description": "Choose the base font size"
-            },
-            "main_title_font": {
-                "type": "select",
-                "options": [
-                    "Monospace",
-                    "Sans-serif",
-                    "Serif"
-                ],
-                "default": "Monospace",
-                "description": "Choose the main site title font style"
-            },
-            "main_title_size": {
-                "type": "select",
-                "options": [
-                    "Small",
-                    "Medium",
-                    "Large",
-                    "Extra Large"
-                ],
-                "default": "Large",
-                "description": "Choose the main site title size"
-            },
-            "sidebar_position": {
-                "type": "select",
-                "options": [
-                    "Right",
-                    "Left"
-                ],
-                "default": "Right",
-                "description": "Choose sidebar position"
-            },
-            "enable_dark_mode": {
-                "type": "boolean",
-                "default": true,
-                "description": "Enable dark mode toggle"
-            },
             "show_about_me": {
                 "type": "boolean",
                 "default": true,
@@ -159,40 +104,6 @@
                 ],
                 "default": "Circle",
                 "description": "About Me image display style"
-            },
-            "custom_block_enabled": {
-                "type": "boolean",
-                "default": false,
-                "description": "Enable custom sidebar block"
-            },
-            "custom_block_title": {
-                "type": "text",
-                "default": "",
-                "description": "Title for custom block"
-            },
-            "custom_block_content": {
-                "type": "text",
-                "default": "",
-                "description": "HTML content for custom block"
-            },
-            "custom_block_image": {
-                "type": "image",
-                "description": "Optional image for custom block"
-            },
-            "social_twitter": {
-                "type": "text",
-                "default": "",
-                "description": "Twitter/X username or full URL"
-            },
-            "social_github": {
-                "type": "text",
-                "default": "",
-                "description": "GitHub username or full URL"
-            },
-            "social_email": {
-                "type": "text",
-                "default": "",
-                "description": "Contact email address"
             }
         }
     },
