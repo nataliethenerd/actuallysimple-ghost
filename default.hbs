@@ -67,10 +67,49 @@
         .post-item-thumbnail { height: 110px; }
 
         .site-title {
-            font-family: var(--font-mono);
-            font-size: 40px;
+            font-family: var(--heading-font-family);
+            font-size: 25px;
         }
 
+        /* Header font customization */
+        .header-font-monospace {
+            --heading-font-family: var(--font-mono);
+        }
+
+        .header-font-sans-serif {
+            --heading-font-family: var(--font-sans);
+        }
+
+        .header-font-serif {
+            --heading-font-family: var(--font-serif);
+        }
+
+        /* Image zoom modal */
+        .image-zoom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        .image-zoom-overlay img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border: none;
+            filter: none;
+        }
+
+        .post-content img {
+            cursor: zoom-in;
+        }
 
     </style>
 
@@ -79,7 +118,7 @@
 
     {{ghost_head}}
 </head>
-<body class="{{body_class}} sidebar-right font-monospace">
+<body class="{{body_class}} sidebar-right font-monospace {{#match @custom.header_font "Monospace"}}header-font-monospace{{/match}}{{#match @custom.header_font "Sans-serif"}}header-font-sans-serif{{/match}}{{#match @custom.header_font "Serif"}}header-font-serif{{/match}}">
     <div class="container">
         <header class="site-header">
             <h1 class="site-title">
@@ -130,25 +169,6 @@
 
 
 
-                <div class="sidebar-widget">
-                    <h3 class="sidebar-title">Recent Posts</h3>
-                    <div class="sidebar-divider">..........................................................................................................</div>
-                    <div class="sidebar-recent-posts">
-                        {{#get "posts" limit="5" include="tags"}}
-                        {{#foreach posts}}
-                        <article class="sidebar-post">
-                            <h4 class="sidebar-post-title">
-                                <a href="{{url}}">{{title}}</a>
-                            </h4>
-                            <div class="sidebar-post-meta">
-                                {{date format="MMM DD, YYYY"}}
-                            </div>
-                            {{#unless @last}}<div class="sidebar-divider">..........................................................................................................</div>{{/unless}}
-                        </article>
-                        {{/foreach}}
-                        {{/get}}
-                    </div>
-                </div>
 
                 {{#if @site.members_enabled}}
                 <div class="sidebar-widget">
@@ -185,8 +205,13 @@
         </div>
 
         <footer class="site-footer">
-            <p>&copy; {{date format="YYYY"}} {{@site.title}}. Powered by <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>.</p>
+            <p>&copy; {{date format="YYYY"}} {{@site.title}}. Theme <a href="https://github.com/nataliethenerd/actuallysimple-ghost" target="_blank" rel="noopener">Actually Simple</a>.</p>
         </footer>
+    </div>
+
+    <!-- Image zoom modal -->
+    <div class="image-zoom-overlay" id="imageZoomOverlay">
+        <img src="" alt="" id="zoomedImage">
     </div>
 
     <script>
@@ -271,6 +296,47 @@
 
         // Initialize subscribe button feedback
         addSubscribeButtonFeedback();
+
+        // Image zoom functionality
+        function initImageZoom() {
+            const overlay = document.getElementById('imageZoomOverlay');
+            const zoomedImage = document.getElementById('zoomedImage');
+            const postImages = document.querySelectorAll('.post-content img');
+
+            // Add click event to all post images
+            postImages.forEach(function(img) {
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Set the zoomed image source and alt text
+                    zoomedImage.src = this.src;
+                    zoomedImage.alt = this.alt;
+
+                    // Show the overlay
+                    overlay.style.display = 'flex';
+
+                    // Prevent body scroll
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close zoom when clicking on overlay
+            overlay.addEventListener('click', function() {
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            // Close zoom with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlay.style.display === 'flex') {
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Initialize image zoom
+        initImageZoom();
     </script>
 
     {{!-- Site-wide code injection (foot) --}}

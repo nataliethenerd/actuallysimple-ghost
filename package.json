@@ -104,6 +104,16 @@
                 ],
                 "default": "Circle",
                 "description": "About Me image display style"
+            },
+            "header_font": {
+                "type": "select",
+                "options": [
+                    "Monospace",
+                    "Sans-serif",
+                    "Serif"
+                ],
+                "default": "Monospace",
+                "description": "Font family for headers and titles"
             }
         }
     },
