@@ -37,6 +37,7 @@ function initDarkMode() {
     });
 }
 
+
 // Subscribe button feedback functionality
 function initSubscribeButtons() {
     // Function to add button feedback
